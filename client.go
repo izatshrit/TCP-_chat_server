@@ -59,7 +59,16 @@ func (c *client) readInput() {
 				client: c,
 			}
 		default:
-			c.err(fmt.Errorf("unknown command: %s", cmd))
+
+			if c.room != nil {
+				c.commands <- command{
+					id:     CMD_MSG,
+					client: c,
+					args:   args,
+				}
+			} else {
+				c.err(fmt.Errorf("unknown command: %s", cmd))
+			}
 		}
 	}
 }

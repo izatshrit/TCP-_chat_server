@@ -42,6 +42,7 @@ func (s *server) newClient(conn net.Conn) {
 	c := &client{
 		conn:     conn,
 		nick:     "anonymous",
+		room:     nil,
 		commands: s.commands,
 	}
 
@@ -98,12 +99,12 @@ func (s *server) listRooms(c *client) {
 }
 
 func (s *server) msg(c *client, args []string) {
-	if len(args) < 2 {
-		c.msg("message is required, usage: /msg MSG")
-		return
-	}
+	// if len(args) < 2 {
+	// 	c.msg("message is required, usage: /msg MSG")
+	// 	return
+	// }
 
-	msg := strings.Join(args[1:], " ")
+	msg := strings.Join(args, " ")
 	c.room.broadcast(c, c.nick+": "+msg)
 }
 
